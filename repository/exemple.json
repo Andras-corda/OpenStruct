@@ -1,0 +1,8 @@
+{
+  "nom": "Exemple JSON",
+  "version": "1.0.0",
+  "configuration": {
+    "theme": "sombre",
+    "langue": "fr"
+  }
+}

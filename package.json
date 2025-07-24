@@ -1,0 +1,22 @@
+{
+  "name": "openstruct",
+  "version": "1.0.0",
+  "description": "IDE format files",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "build": "electron-packager .",
+    "build-win": "electron-packager . --platform=win32",
+    "build-mac": "electron-packager . --platform=darwin",
+    "build-linux": "electron-packager . --platform=linux"
+  },
+  "keywords": [],
+  "author": "R3tr0___",
+  "license": "MIT",
+  "devDependencies": {
+    "@electron/packager": "^18.3.6",
+    "electron": "^37.2.3",
+    "electron-packager": "^17.1.2"
+  }
+}

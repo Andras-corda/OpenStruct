@@ -1,0 +1,14 @@
+[application]
+nom = "Mon IDE"
+version = "1.0.0"
+debug = true
+
+[serveur]
+port = 3000
+host = "localhost"
+
+[base_donnees]
+type = "postgresql"
+host = "localhost"
+port = 5432
+nom = "mon_ide_db"

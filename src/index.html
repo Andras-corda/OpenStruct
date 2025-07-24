@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/styles.css">
+    <title>OpenStruct</title>
+</head>
+
+<body>
+    <div class="app-container">
+        <div class="toolbar">
+            <button class="btn" onclick="createNewFile()">Nouveau</button>
+            <button class="btn secondary" onclick="document.getElementById('fileInput').click()">Ouvrir</button>
+            <button class="btn secondary" onclick="saveFile()">Sauvegarder</button>
+            <!-- <button class="btn secondary" onclick="saveAsFile()">Sauvegarder sous...</button> 
+            <button class="btn secondary" onclick="app.showRepositoryManager()">Repository</button> -->
+
+            <select class="file-type-select" id="fileTypeSelect" onchange="changeFileType()">
+                <option value="json">JSON</option>
+                <option value="xml">XML</option>
+                <option value="yaml">YAML</option>
+                <option value="toml">TOML</option>
+                <option value="csv">CSV</option>
+            </select>
+
+            <input type="file" id="fileInput" class="file-input" accept=".json,.xml,.yaml,.yml,.toml,.csv"
+                onchange="openFile(event)">
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="sidebar-header">Explorateur</div>
+                <div class="file-tree" id="fileTree">
+                    <div class="file-item">
+                        <div class="file-icon">📁</div>
+                        <span>Aucun fichier ouvert</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="editor-container">
+                <div class="editor-tabs" id="editorTabs"></div>
+
+                <div class="editor-content" id="editorContent">
+                    <div class="welcome-screen" id="welcomeScreen">
+                        <h2>Bienvenue sur OpenStruct</h2>
+                        <p>Créez un nouveau fichier ou ouvrez un fichier existant pour commencer</p>
+                        <button class="btn" onclick="createNewFile('NONE')">Créer un nouveau fichier</button>
+                    </div>
+                </div>
+
+                <div class="status-bar">
+                    <span id="statusLeft">Prêt</span>
+                    <span id="statusRight">Aucun fichier</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts/ide.js"></script>
+    <!-- Scripts 
+    <script src="scripts/FileManager.js"></script>
+    <script src="scripts/RepositoryManager.js"></script>
+    <script src="scripts/UIManager.js"></script>
+    <script src="scripts/FileOperations.js"></script>
+    <script src="scripts/main.js"></script>
+    -->
+</body>
+
+</html>
