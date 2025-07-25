@@ -3,7 +3,7 @@
 **OpenStruct** est un **IDE moderne** pour éditer, visualiser et manipuler facilement des fichiers structurés comme **JSON**, **YAML**, **XML**, **TOML** et **CSV**.  
 Développé avec [Electron.js](https://www.electronjs.org/), il allie la puissance du web à la simplicité d’une application de bureau.
 
-![OpenStruct icon](./assets/logo.png) 
+![OpenStruct icon](./src/assets/logo.png) 
 
 ---
 
