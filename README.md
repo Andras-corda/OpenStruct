@@ -26,7 +26,7 @@ Développé avec [Electron.js](https://www.electronjs.org/).
 
 ### Téléchargement rapide
 
-> Les versions pré-compilées sont disponibles dans la section [Releases]([https://github.com/votre-utilisateur/OpenStruct/releases](https://github.com/Andras-corda/OpenStruct/releases)).
+> Les versions pré-compilées sont disponibles dans la section [Releases](https://github.com/Andras-corda/OpenStruct/releases).
 
 ### Cloner le projet et lancer localement
 
