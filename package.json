@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "build": "electron-packager .",
+    "build": "electron-packager . --icon=assets/ICON.ico",
     "build-win": "electron-packager . --platform=win32",
     "build-mac": "electron-packager . --platform=darwin",
     "build-linux": "electron-packager . --platform=linux"

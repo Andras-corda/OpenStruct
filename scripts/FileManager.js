@@ -1,13 +1,7 @@
-// RepositoryManager.js - Gestion du repository local/distant
-export class RepositoryManager {
-    constructor() {
+class FileManager {
+    constructor(app) {
+        this.app = app;
         this.repositoryPath = './repository';
-        this.repositoryFiles = new Map();
-    }
-
-    async init() {
-        await this.initializeRepository();
-        await this.loadRepositoryFiles();
     }
 
     async initializeRepository() {
@@ -19,7 +13,6 @@ export class RepositoryManager {
             }
         } catch (error) {
             console.error('Erreur lors de l\'initialisation du repository:', error);
-            throw error;
         }
     }
 
@@ -41,25 +34,23 @@ export class RepositoryManager {
 
     async loadRepositoryFiles() {
         try {
-            this.repositoryFiles.clear();
+            this.app.repositoryFiles.clear();
 
             if (window.electronAPI) {
                 const files = await window.electronAPI.repository.listFiles();
                 for (const file of files) {
-                    this.repositoryFiles.set(file.name, ''); // chargement différé
+                    this.app.repositoryFiles.set(file.name, '');
                 }
             } else {
                 const savedFiles = JSON.parse(localStorage.getItem('repository_files') || '{}');
                 for (const [fileName, content] of Object.entries(savedFiles)) {
-                    this.repositoryFiles.set(fileName, content);
+                    this.app.repositoryFiles.set(fileName, content);
                 }
             }
 
-            console.log(`${this.repositoryFiles.size} fichiers chargés depuis le repository`);
-            return Array.from(this.repositoryFiles.keys());
+            console.log(`${this.app.repositoryFiles.size} fichiers chargés depuis le repository`);
         } catch (error) {
             console.error('Erreur lors du chargement des fichiers du repository:', error);
-            throw error;
         }
     }
 
@@ -74,12 +65,11 @@ export class RepositoryManager {
                 localStorage.setItem('repository_files', JSON.stringify(repositoryFiles));
             }
 
-            this.repositoryFiles.set(fileName, content);
+            this.app.repositoryFiles.set(fileName, content);
             console.log(`Fichier ${fileName} sauvegardé dans le repository`);
-            return true;
         } catch (error) {
             console.error('Erreur sauvegarde:', error);
-            throw new Error('Erreur lors de la sauvegarde dans le repository');
+            alert('Erreur lors de la sauvegarde dans le repository');
         }
     }
 
@@ -92,44 +82,60 @@ export class RepositoryManager {
             } else {
                 const repositoryFiles = JSON.parse(localStorage.getItem('repository_files') || '{}');
                 const content = repositoryFiles[fileName];
-                if (content === undefined) throw new Error(`Fichier ${fileName} non trouvé`);
+                if (!content) throw new Error(`Fichier ${fileName} non trouvé`);
                 return content;
             }
         } catch (error) {
             console.error('Erreur lors du chargement depuis le repository:', error);
+
+            const recreate = confirm(`Le fichier ${fileName} n'existe pas. Le recréer avec un contenu par défaut ?`);
+            if (recreate) {
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+                const fileType = this.app.getFileTypeFromExtension(fileExtension);
+                const defaultContent = this.app.getTemplateContent(fileType);
+                await this.saveToRepository(fileName, defaultContent);
+                return defaultContent;
+            }
+
             throw error;
         }
     }
 
     async deleteFromRepository(fileName) {
+        if (!confirm(`Supprimer définitivement le fichier "${fileName}" du repository ?`)) {
+            return;
+        }
+
         try {
-            if (window.electronAPI) {
-                const result = await window.electronAPI.repository.deleteFile(fileName);
-                if (!result.success) throw new Error(result.error);
-            } else {
-                const repositoryFiles = JSON.parse(localStorage.getItem('repository_files') || '{}');
-                delete repositoryFiles[fileName];
-                localStorage.setItem('repository_files', JSON.stringify(repositoryFiles));
+            const repositoryFiles = JSON.parse(localStorage.getItem('repository_files') || '{}');
+            delete repositoryFiles[fileName];
+            localStorage.setItem('repository_files', JSON.stringify(repositoryFiles));
+
+            this.app.repositoryFiles.delete(fileName);
+
+            for (const [fileId, fileData] of this.app.openFiles.entries()) {
+                if (fileData.name === fileName && fileData.savedToRepository) {
+                    this.app.closeFile(fileId);
+                    break;
+                }
             }
 
-            this.repositoryFiles.delete(fileName);
-            console.log(`Fichier ${fileName} supprimé du repository`);
-            return true;
+            this.app.updateStatus(`Fichier ${fileName} supprimé du repository`);
+            this.app.updateUI();
         } catch (error) {
             console.error('Erreur lors de la suppression:', error);
-            throw new Error('Erreur lors de la suppression du fichier');
+            alert('Erreur lors de la suppression du fichier');
         }
     }
 
     async refreshRepository() {
-        return await this.loadRepositoryFiles();
-    }
-
-    getRepositoryFiles() {
-        return Array.from(this.repositoryFiles.keys());
-    }
-
-    hasFile(fileName) {
-        return this.repositoryFiles.has(fileName);
+        try {
+            await this.loadRepositoryFiles();
+            this.app.updateUI();
+            this.app.updateStatus('Repository actualisé');
+        } catch (error) {
+            console.error('Erreur lors de l\'actualisation:', error);
+            this.app.updateStatus('Erreur lors de l\'actualisation');
+        }
     }
 }

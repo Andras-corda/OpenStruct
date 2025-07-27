@@ -7,12 +7,12 @@ function createWindow() {
     height: 600,
     webPreferences: {
       contextIsolation: true,
-      preload: path.join(__dirname, 'src', 'preload.js')
+      preload: path.join(__dirname, 'preload.js')
     },
-    icon: path.join(__dirname, 'src', 'assets', 'logo.png'), // icon d'app
+    icon: path.join(__dirname, 'assets', 'logo.png'), // icon d'app
   });
 
-  mainWindow.loadFile('src/index.html');
+  mainWindow.loadFile('index.html');
 }
 
 app.whenReady().then(createWindow);

@@ -14,8 +14,8 @@
             <button class="btn" onclick="createNewFile()">Nouveau</button>
             <button class="btn secondary" onclick="document.getElementById('fileInput').click()">Ouvrir</button>
             <button class="btn secondary" onclick="saveFile()">Sauvegarder</button>
-            <!-- <button class="btn secondary" onclick="saveAsFile()">Sauvegarder sous...</button> 
-            <button class="btn secondary" onclick="app.showRepositoryManager()">Repository</button> -->
+            <button class="btn secondary" onclick="saveAsFile()">Sauvegarder sous...</button> 
+            <button class="btn secondary" onclick="app.showRepositoryManager()">Repository</button>
 
             <select class="file-type-select" id="fileTypeSelect" onchange="changeFileType()">
                 <option value="json">JSON</option>
@@ -58,14 +58,14 @@
             </div>
         </div>
     </div>
-    <script src="scripts/ide.js"></script>
-    <!-- Scripts 
+    
+    <!-- Scripts modulaires -->
     <script src="scripts/FileManager.js"></script>
-    <script src="scripts/RepositoryManager.js"></script>
-    <script src="scripts/UIManager.js"></script>
     <script src="scripts/FileOperations.js"></script>
-    <script src="scripts/main.js"></script>
-    -->
+    <script src="scripts/UIManager.js"></script>
+    <script src="scripts/RepositoryManager.js"></script>
+    <script src="scripts/ide.js"></script>
+    <script src="scripts/Keycode.js"></script>
 </body>
 
 </html>
