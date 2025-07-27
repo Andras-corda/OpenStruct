@@ -17,7 +17,7 @@ Développé avec [Electron.js](https://www.electronjs.org/).
 - **Conversion instantanée** entre formats.
 - **Mudules d'extension**
 
-## Fonctionnalités secondaire à venir
+### Fonctionnalités secondaire à venir
 - Drag 'n drop de fichier
 - module d'extension
 ---
